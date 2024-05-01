@@ -1,4 +1,4 @@
-﻿#include "dllmain.h"
+﻿#include "dllmain.hpp"
 
 // Ran when the mod is loaded into the game by AmethystRuntime
 ModFunction void Initialize(AmethystContext* ctx) 
