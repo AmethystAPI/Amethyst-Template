@@ -10,11 +10,11 @@ void OnStartJoinGame(OnStartJoinGameEvent& event)
 ModFunction void Initialize(AmethystContext& ctx) 
 {
     // Initialize Amethyst mod backend
-    InitializeAmethystMod(ctx);
+    Amethyst::InitializeAmethystMod(ctx);
 
     // Logging from <Amethyst/Log.h>
     Log::Info("Hello, Amethyst World!");
 
     // Add a listener to a built in amethyst event
-    GetEventBus().AddListener<OnStartJoinGameEvent>(&OnStartJoinGame);
+    Amethyst::GetEventBus().AddListener<OnStartJoinGameEvent>(&OnStartJoinGame);
 }
