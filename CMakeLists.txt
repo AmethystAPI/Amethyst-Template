@@ -1,16 +1,22 @@
 cmake_minimum_required(VERSION 3.12)
-
-# Mod Options
 project(Amethyst-Template CXX ASM_NASM)
-set(MOD_VERSION "0.1.0")
+set(MOD_VERSION "0.0.0")
 set(MOD_AUTHOR "FrederoxDev")
 
-# Amethyst Minecraft Folder
-set(AmethystFolder "$ENV{localappdata}/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/amethyst/") 
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /await")
 
-# Configure to build within the Amethyst Folder
-configure_file(mod.json.in "${AmethystFolder}/mods/${PROJECT_NAME}@${MOD_VERSION}/mod.json" @ONLY)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${AmethystFolder}/mods/${PROJECT_NAME}@${MOD_VERSION}")
+# Amethyst Minecraft Folder
+if (CI_CD_BUILD)
+        configure_file(mod.json.in "${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}@${MOD_VERSION}/mod.json" @ONLY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}@${MOD_VERSION}")
+        set(AMETHYST_SRC "${CMAKE_SOURCE_DIR}/amethyst")
+else()
+        set(AmethystFolder "$ENV{localappdata}/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/amethyst/") 
+        configure_file(mod.json.in "${AmethystFolder}/mods/${PROJECT_NAME}@${MOD_VERSION}/mod.json" @ONLY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${AmethystFolder}/mods/${PROJECT_NAME}@${MOD_VERSION}")
+        set(AMETHYST_SRC "$ENV{amethyst_src}/amethyst")
+endif()
 
 # Define only RelWithDebInfo as the available build configuration
 set(CMAKE_CXX_STANDARD 23)
@@ -38,7 +44,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE MOD_NAME="${PROJECT_NAME}")
 target_link_libraries(${PROJECT_NAME} PRIVATE
         AmethystAPI
         libhat
-        $ENV{amethyst_src}/AmethystAPI/lib/fmt.lib
+        ${AMETHYST_SRC}/AmethystAPI/lib/fmt.lib
 )
 
 # Enable multi processor compilation for C++, to make it go brrrrrr
@@ -50,4 +56,4 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PUBLIC ENTT_PACKED_PAGE=128)
 
 # Get the AmethystAPI Lib
-add_subdirectory("$ENV{amethyst_src}/AmethystAPI" "build")
+add_subdirectory("${AMETHYST_SRC}/AmethystAPI" "build")
