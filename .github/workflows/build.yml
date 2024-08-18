@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-    MOD_NAME: Amethyst-Template # update with the name of your mod
+    SHARD_NAME: Amethyst-Template # update with the name of your mod
 
 jobs:
   build:
@@ -37,8 +37,8 @@ jobs:
         id: increment_version
         run: |
           $filePath = "CMakeLists.txt"
-          $version_line = Select-String -Path $filePath -Pattern 'set\(MOD_VERSION "(.*)"\)'
-          if ($version_line -match 'set\(MOD_VERSION "(\d+)\.(\d+)\.(\d+)"\)') {
+          $version_line = Select-String -Path $filePath -Pattern 'set\(SHARD_VERSION "(.*)"\)'
+          if ($version_line -match 'set\(SHARD_VERSION "(\d+)\.(\d+)\.(\d+)"\)') {
             $major = [int]$matches[1]
             $minor = [int]$matches[2]
             $patch = [int]$matches[3]
@@ -48,7 +48,7 @@ jobs:
             $new_version = "$major.$minor.$new_patch"
 
             # Update the CMakeLists.txt file
-            (Get-Content $filePath) -replace 'set\(MOD_VERSION ".*"\)', "set(MOD_VERSION `"$new_version`")" | Set-Content $filePath
+            (Get-Content $filePath) -replace 'set\(SHARD_VERSION ".*"\)', "set(SHARD_VERSION `"$new_version`")" | Set-Content $filePath
 
             echo "NEW_VERSION=$new_version" >> $env:GITHUB_ENV
             echo "FILE_PATH=$filePath" >> $env:GITHUB_ENV
@@ -74,13 +74,13 @@ jobs:
           mkdir build
           cd build
           cmake -DCI_CD_BUILD=ON ..
-          msbuild ${{ env.MOD_NAME }}.sln
+          msbuild ${{ env.SHARD_NAME }}.sln
 
       - name: Package Build
         run: |
           $version = $env:NEW_VERSION
-          $sourcePath = "dist/${{ env.MOD_NAME }}@$version"
-          $zipPath = "dist/${{ env.MOD_NAME }}@$version.zip"
+          $sourcePath = "dist/${{ env.SHARD_NAME }}@$version"
+          $zipPath = "dist/${{ env.SHARD_NAME }}@$version.zip"
 
           if (-Not (Test-Path -Path $sourcePath)) {
             Write-Error "Source path does not exist: $sourcePath"
@@ -103,8 +103,8 @@ jobs:
 
       - name: Upload Release Asset
         run: |
-          $asset_path = "dist/${{ env.MOD_NAME }}@$env:NEW_VERSION.zip"
-          $asset_label = "${{ env.MOD_NAME }}@$env:NEW_VERSION.zip"
+          $asset_path = "dist/${{ env.SHARD_NAME }}@$env:NEW_VERSION.zip"
+          $asset_label = "${{ env.SHARD_NAME }}@$env:NEW_VERSION.zip"
           gh release upload "v$env:NEW_VERSION" "$asset_path#$asset_label" --repo ${{ github.repository }}
         shell: pwsh
         env:
