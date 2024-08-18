@@ -1,20 +1,29 @@
-cmake_minimum_required(VERSION 3.12)
-project(Amethyst-Template CXX ASM_NASM)
-set(MOD_VERSION "0.0.0")
-set(MOD_AUTHOR "FrederoxDev")
+####################################################################################################
+set(SHARD_NAME "Shard Template")
+set(SHARD_AUTHOR "Author")
+set(SHARD_UUID "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+set(SHARD_VERSION "0.0.0")
 
+# ADVANCED
+set(SHARD_FORMAT "MOD")
+set(SHARD_FORMAT_VERSION "3.0.0") # Don't modify
+####################################################################################################
+
+# CMAKE
+project(SHARD_NAME CXX ASM_NASM)
+cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /await")
 
 # Amethyst Minecraft Folder
 if (CI_CD_BUILD)
-        configure_file(mod.json.in "${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}@${MOD_VERSION}/mod.json" @ONLY)
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}@${MOD_VERSION}")
+        configure_file(manifest.json.in "${CMAKE_SOURCE_DIR}/dist/${SHARD_NAME}@${SHARD_VERSION}/manifest.json" @ONLY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/dist/${SHARD_NAME}@${SHARD_VERSION}")
         set(AMETHYST_SRC "${CMAKE_SOURCE_DIR}/amethyst")
 else()
         set(AmethystFolder "$ENV{localappdata}/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/amethyst/") 
-        configure_file(mod.json.in "${AmethystFolder}/mods/${PROJECT_NAME}@${MOD_VERSION}/mod.json" @ONLY)
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${AmethystFolder}/mods/${PROJECT_NAME}@${MOD_VERSION}")
+        configure_file(manifest.json.in "${AmethystFolder}/mods/${SHARD_NAME}@${SHARD_VERSION}/manifest.json" @ONLY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${AmethystFolder}/mods/${SHARD_NAME}@${SHARD_VERSION}")
         set(AMETHYST_SRC "$ENV{amethyst_src}")
 endif()
 
@@ -36,9 +45,13 @@ file(GLOB_RECURSE ${PROJECT_NAME}_All
 add_library(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_All})
 
 # Pass mod options to the source code
-target_compile_definitions(${PROJECT_NAME} PRIVATE MOD_VERSION="${MOD_VERSION}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE MOD_AUTHOR="${MOD_AUTHOR}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE MOD_NAME="${PROJECT_NAME}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHARD_NAME="${SHARD_NAME}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHARD_AUTHOR="${SHARD_AUTHOR}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHARD_UUID="${SHARD_UUID}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHARD_VERSION="${SHARD_VERSION}")
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHARD_FORMAT="${SHARD_FORMAT}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHARD_FORMAT_VERSION="${SHARD_FORMAT_VERSION}")
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
