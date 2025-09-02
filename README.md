@@ -1,11 +1,15 @@
 # Usage Guide
 
-Start by selecting `Use this template` > `Create a new Repository` and setup a repository. Next clone the repository, and replace the information at the start of the `CMakeLists.txt` file.
+Start by selecting `Use this template` > `Create a new Repository` and setup a repository. Next clone the repository, and replace the information at the start of the `xmake.lua` file.
 
 ```cmake
-project(Amethyst-Template CXX ASM_NASM) # Replace `Amethyst-Template` with the name of your mod
-set(MOD_VERSION "0.1.0") # Replace this with the version number of your mod
-set(MOD_AUTHOR "FrederoxDev") # Replace this with your name
+-- Mod Options
+local mod_name = "Amethyst-Template" -- Replace with the name of your mod
+local targetMajor, targetMinor, targetPatch = 1, 21, 3 -- Replace with the target minecraft version
 ```
 
-To build this, you need to have also build AmethystAPI seperately
+Next replace `Amethyst-Template` in `data/config.json` to your mods name. To build the addon for your pack you can use [rgl](https://github.com/ink0rr/rgl)
+```
+cd data
+rgl watch
+```

@@ -1,8 +1,0 @@
-{
-  "format_version": "1.0.0",
-  "meta": {
-    "name": "@PROJECT_NAME@",
-    "version": "@MOD_VERSION@",
-    "author": "@MOD_AUTHOR@"
-  }
-}
