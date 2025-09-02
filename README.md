@@ -13,3 +13,7 @@ Next replace `Amethyst-Template` in `data/config.json` to your mods name. To bui
 cd data
 rgl watch
 ```
+
+## Loading BP/RP's
+
+To load BP/RP's alongside your mod, add a `manifest.json` to `data/packs/(RP|BP)` and Amethyst-Runtime will automatically load the pack.
