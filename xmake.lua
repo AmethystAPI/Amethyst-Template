@@ -9,7 +9,6 @@ option("automated_build")
 option_end()
 
 set_languages("c++23")
-set_project(mod_name)
 
 local automated = is_config("automated_build", true)
 local modFolder
@@ -52,6 +51,8 @@ add_ldflags("/OPT:REF", "/OPT:ICF", "/INCREMENTAL:NO", {force = true})
 
 set_targetdir(modFolder)
 set_toolchains("msvc", {asm = "nasm"})
+
+set_project(mod_name)
 
 target(mod_name)
     set_kind("shared")
