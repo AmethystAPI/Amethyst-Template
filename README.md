@@ -2,7 +2,7 @@
 
 Start by selecting `Use this template` > `Create a new Repository` and setup a repository. Next clone the repository, and replace the information at the start of the `xmake.lua` file.
 
-```cmake
+```lua
 -- Mod Options
 local mod_name = "Amethyst-Template" -- Replace with the name of your mod
 local targetMajor, targetMinor, targetPatch = 1, 21, 3 -- Replace with the target minecraft version
