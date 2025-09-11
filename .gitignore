@@ -1,3 +1,6 @@
 /build
 /.xmake
 /.vscode/compile_commands.json
+/generated
+/vsxmake2022
+/.importer
