@@ -64,39 +64,44 @@ package("RuntimeImporter")
         import("core.base.json")
         import("utils.archive")
 
-        local releases_file = path.join(os.tmpdir(), "runtimeimporter.releases.json")
+        local releases_file = path.join(os.tmpdir(), "runtime-importer.releases.json")
         http.download("https://api.github.com/repos/AmethystAPI/Runtime-Importer/releases/latest", releases_file)
 
+        local importer_dir = path.join(os.curdir(), ".importer");
+        local bin_dir = path.join(importer_dir, "bin");
         local release = json.loadfile(releases_file)
         local latest_tag = release.tag_name
-        local installed_version_file = path.join(package:installdir(), "version.txt")
+        local installed_version_file = path.join(importer_dir, "version.txt")
         local installed_version = os.isfile(installed_version_file) and io.readfile(installed_version_file) or "0.0.0"
         local should_reinstall = installed_version ~= latest_tag
+        
 
         if should_reinstall then
-            print("RuntimeImporter is outdated, reinstalling...")
+            print("Runtime-Importer is outdated, reinstalling...")
             print("Latest version is " .. latest_tag)
             local url = "https://github.com/AmethystAPI/Runtime-Importer/releases/latest/download/Runtime-Importer.zip"
             local zipfile = path.join(os.tmpdir(), "Runtime-Importer.zip")
-            print("Installing RuntimeImporter...")
+            print("Installing Runtime-Importer...")
 
             http.download(url, zipfile)
-            archive.extract(zipfile, package:installdir("bin"))
+            archive.extract(zipfile, bin_dir)
             io.writefile(installed_version_file, latest_tag)
         end
 
-        package:addenv("PATH", package:installdir("bin"))
+        package:addenv("PATH", bin_dir)
 
-        local generated_dir = path.join(os.curdir(), "generated")
+        local generated_dir = path.join(importer_dir, "generated")
         local pch_file = path.join(generated_dir, "pch.hpp.pch")
         local should_regenerate_pch = os.exists(pch_file) == false or should_reinstall
+
         if should_regenerate_pch then
             print("Generating precompiled header of STL...")
             os.mkdir(generated_dir)
+
             local clang_args = {
-                path.join(package:installdir("bin"), "clang++.exe"),
+                path.join(bin_dir, "clang++.exe"),
                 "-x", "c++-header",
-                path.join(package:installdir("bin/utils"), "pch.hpp"),
+                path.join(path.join(bin_dir, "utils"), "pch.hpp"),
                 "-std=c++23",
                 "-fms-extensions",
                 "-fms-compatibility",
@@ -152,7 +157,8 @@ target(mod_name)
     add_headerfiles("src/**.hpp")
 
     before_build(function (target)
-        local generated_dir = path.join(os.curdir(), "generated")
+        local importer_dir = path.join(os.curdir(), ".importer");
+        local generated_dir = path.join(importer_dir, "generated")
         local input_dir = path.join(amethystApiPath, "src"):gsub("\\", "/")
         local include_dir = path.join(amethystApiPath, "include"):gsub("\\", "/")
         
@@ -183,7 +189,8 @@ target(mod_name)
     end)
 
     after_build(function (target)
-        local generated_dir = path.join(os.curdir(), "generated")
+        local importer_dir = path.join(os.curdir(), ".importer");
+        local generated_dir = path.join(importer_dir, "generated")
         local src_json = path.join("mod.json")
         local dst_json = path.join(modFolder, "mod.json")
         if not os.isdir(modFolder) then
