@@ -54,7 +54,7 @@ set_toolchains("msvc", {asm = "nasm"})
 
 set_project(mod_name)
 
-package("RuntimeImporter")
+package("Runtime-Importer")
     set_kind("binary")
     set_homepage("https://github.com/AmethystAPI/Runtime-Importer")
     set_description("The runtime importer enables importing functions and variables from the game just by defining annotations in header files")
@@ -75,7 +75,6 @@ package("RuntimeImporter")
         local installed_version = os.isfile(installed_version_file) and io.readfile(installed_version_file) or "0.0.0"
         local should_reinstall = installed_version ~= latest_tag
         
-
         if should_reinstall then
             print("Runtime-Importer is outdated, reinstalling...")
             print("Latest version is " .. latest_tag)
@@ -115,7 +114,8 @@ package("RuntimeImporter")
     end)
 package_end()
 
-add_requires("RuntimeImporter", {system = false})
+add_requires("Runtime-Importer", {system = false})
+
 target(mod_name)
     set_kind("shared")
     add_deps("AmethystAPI", "libhat")
@@ -149,7 +149,7 @@ target(mod_name)
     )
 
     -- Deps
-    add_packages("RuntimeImporter")
+    add_packages("Runtime-Importer")
     add_packages("AmethystAPI", "libhat")
     add_links("user32", "oleaut32", "windowsapp", path.join(os.curdir(), ".importer/lib/Minecraft.Windows.lib"))
 
