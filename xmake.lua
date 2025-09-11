@@ -90,7 +90,7 @@ package("RuntimeImporter")
 
         package:addenv("PATH", bin_dir)
 
-        local generated_dir = path.join(importer_dir, "generated")
+        local generated_dir = path.join(importer_dir)
         local pch_file = path.join(generated_dir, "pch.hpp.pch")
         local should_regenerate_pch = os.exists(pch_file) == false or should_reinstall
 
@@ -151,14 +151,14 @@ target(mod_name)
     -- Deps
     add_packages("RuntimeImporter")
     add_packages("AmethystAPI", "libhat")
-    add_links("user32", "oleaut32", "windowsapp", path.join(os.curdir(), "generated/lib/Minecraft.Windows.lib"))
+    add_links("user32", "oleaut32", "windowsapp", path.join(os.curdir(), ".importer/lib/Minecraft.Windows.lib"))
 
     add_includedirs("src", {public = true})
     add_headerfiles("src/**.hpp")
 
     before_build(function (target)
         local importer_dir = path.join(os.curdir(), ".importer");
-        local generated_dir = path.join(importer_dir, "generated")
+        local generated_dir = path.join(importer_dir)
         local input_dir = path.join(amethystApiPath, "src"):gsub("\\", "/")
         local include_dir = path.join(amethystApiPath, "include"):gsub("\\", "/")
         
@@ -190,7 +190,7 @@ target(mod_name)
 
     after_build(function (target)
         local importer_dir = path.join(os.curdir(), ".importer");
-        local generated_dir = path.join(importer_dir, "generated")
+        local generated_dir = path.join(importer_dir)
         local src_json = path.join("mod.json")
         local dst_json = path.join(modFolder, "mod.json")
         if not os.isdir(modFolder) then
