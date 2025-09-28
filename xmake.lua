@@ -35,7 +35,7 @@ else
     modFolder = path.join(
         amethystFolder,
         "mods",
-        string.format("%s@dev", mod_name)
+        string.format("%s@0.0.0-dev", mod_name)
     )
 end
 
@@ -163,7 +163,7 @@ target(mod_name)
         local include_dir = path.join(amethystApiPath, "include"):gsub("\\", "/")
         
         local gen_sym_args = {
-            "Amethyst.SymbolGenerator.exe",
+            ".importer/bin/Amethyst.SymbolGenerator.exe",
             "--input", string.format("%s", input_dir),
             "--output", string.format("%s", generated_dir),
             "--filters", "minecraft",
@@ -180,7 +180,7 @@ target(mod_name)
         os.exec(table.concat(gen_sym_args, " "))
 
         local gen_lib_args = {
-            "Amethyst.LibraryGenerator.exe",
+            ".importer/bin/Amethyst.LibraryGenerator.exe",
             "--input", string.format("%s/symbols", generated_dir),
             "--output", string.format("%s/lib", generated_dir)
         }
@@ -199,7 +199,7 @@ target(mod_name)
         os.cp(src_json, dst_json)
 
         local tweaker_args = {
-            "Amethyst.ModuleTweaker.exe",
+            ".importer/bin/Amethyst.ModuleTweaker.exe",
             "--module", target:targetfile(),
             "--symbols", string.format("%s/symbols", generated_dir)
         }

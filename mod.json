@@ -2,7 +2,7 @@
     "meta": {
         "uuid": "00000000-0000-0000-0000-000000000000",
         "name": "Amethyst-Template",
-        "version": "1.0.0",
+        "version": "0.0.0-dev",
         "author": "FrederoxDev",
         "dependencies": [
             {
