@@ -1,6 +1,7 @@
 {
     "meta": {
         "uuid": "00000000-0000-0000-0000-000000000000",
+        "namespace": "fx_template",
         "name": "Amethyst-Template",
         "version": "0.0.0-dev",
         "author": "FrederoxDev",
