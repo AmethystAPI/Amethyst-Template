@@ -1,7 +1,15 @@
 {
     "meta": {
+        "uuid": "00000000-0000-0000-0000-000000000000",
         "name": "Amethyst-Template",
         "version": "1.0.0",
-        "author": "FrederoxDev"
+        "author": "FrederoxDev",
+        "dependencies": [
+            {
+                "dependency_uuid": "e56c3987-fd4a-4590-9923-a07fc4be7250",
+                "dependency_namespace": "amethyst",
+                "version_range": ">=2.0.0 <2.1.0"
+            }
+        ]
     }
 }
