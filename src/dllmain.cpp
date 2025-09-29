@@ -3,14 +3,14 @@
 // Subscribed to amethysts on start join game event in Initialize
 void OnStartJoinGame(OnStartJoinGameEvent& event)
 {
-    Log::Info("The player has joined the game!");
+    Log::Info("OnStartJoinGame!");
 }
 
 // Ran when the mod is loaded into the game by AmethystRuntime
-ModFunction void Initialize(AmethystContext& ctx) 
+ModFunction void Initialize(AmethystContext& ctx, const Mod& mod) 
 {
     // Initialize Amethyst mod backend
-    Amethyst::InitializeAmethystMod(ctx);
+    Amethyst::InitializeAmethystMod(ctx, mod);
 
     // Logging from <Amethyst/Log.h>
     Log::Info("Hello, Amethyst World!");

@@ -8,7 +8,12 @@
 	},
 	"regolith": {
 		"dataPath": "./packs/data",
-		"filterDefinitions": {},
+		"filterDefinitions": {
+			"regolith_generators": {
+				"url": "github.com/FrederoxDev/Regolith-Generators",
+				"version": "1.0.4"
+			}
+		},
 		"formatVersion": "1.4.0",
 		"profiles": {
 			"default": {
@@ -19,7 +24,11 @@
 					"rpPath": "%localappdata%/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/amethyst/mods/Amethyst-Template@dev/resource_packs/main_rp",
 					"target": "exact"
 				},
-				"filters": []
+				"filters": [
+					{
+						"filter": "regolith_generators"
+					}
+				]
 			},
 			"local": {
 				"export": {
