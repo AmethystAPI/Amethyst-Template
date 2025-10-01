@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <amethyst/runtime/mod/Mod.hpp>
 #include <amethyst/runtime/ModContext.hpp>
 #include <amethyst/runtime/events/GameEvents.hpp> // OnStartJoinGameEvent
 
