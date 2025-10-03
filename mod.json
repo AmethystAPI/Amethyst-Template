@@ -2,7 +2,7 @@
     "format_version": "1.1.0",
     "meta": {
         "name": "Amethyst-Template",
-        "version": "0.0.0-dev",
+        "version": "0.0.NaN",
         "namespace": "amethyst_template",
         "author": "FrederoxDev",
         "uuid": "00000000-0000-0000-0000-000000000000",
