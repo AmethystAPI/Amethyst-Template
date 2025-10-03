@@ -182,11 +182,18 @@ target(mod_name)
         local importer_dir = path.join(os.curdir(), ".importer");
         local generated_dir = path.join(importer_dir)
         local src_json = path.join("mod.json")
+
+        local mod_json = io.readfile(src_json)
+        if not automated then
+            mod_json = mod_json:gsub('("version"%s*:%s*")([^"]*)(")', '%1' .. "0.0.0-dev" .. '%3')
+        end
+
         local dst_json = path.join(modFolder, "mod.json")
         if not os.isdir(modFolder) then
             os.mkdir(modFolder)
         end
-        os.cp(src_json, dst_json)
+
+        io.writefile(dst_json, mod_json)
 
         local tweaker_args = {
             ".importer/bin/Amethyst.ModuleTweaker.exe",
