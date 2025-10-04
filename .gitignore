@@ -3,6 +3,8 @@
 /.vscode/compile_commands.json
 /.importer
 /vsxmake2022
+/Amethyst
+/dist
 
 !data/packs/RP/textures/blocks
 !data/packs/RP/textures/items
