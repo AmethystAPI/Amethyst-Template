@@ -2,17 +2,15 @@ import { createFile } from "Regolith-Generators"
 import { join, extname, basename } from "jsr:@std/path";
 import { walkSync } from "jsr:@std/fs";
 
-// Project namespace no longer needs to be set here!
-
 const ROOT_DIR = Deno.env.get("ROOT_DIR")!;
 const modJsonFilePath = join(ROOT_DIR, "..", "mod.json")
 const projectNamespace = JSON.parse(Deno.readTextFileSync(modJsonFilePath)).meta.namespace;
 
-const itemTexturesFolder = join(Deno.cwd(), "RP", "textures", "items");
+const texturesFolder = join(Deno.cwd(), "RP", "textures", "blocks");
 
 const textureData: Record<string, unknown> = {};
 
-for (const entry of walkSync(itemTexturesFolder, { exts: [".png"], includeFiles: true })) {
+for (const entry of walkSync(texturesFolder, { exts: [".png"], includeFiles: true })) {
     const textureName = basename(entry.path, extname(entry.path));
     const relativePath = entry.path.replaceAll("\\", "/").split("/RP/")[1];
     const noExtensionPath = relativePath.replace(extname(relativePath), "");
@@ -23,7 +21,9 @@ for (const entry of walkSync(itemTexturesFolder, { exts: [".png"], includeFiles:
 }
 
 createFile({
-    resource_pack_name: "Amethyst-Template RP",
-    texture_name: 'atlas.items',
+    "num_mip_levels": 4,
+    "padding": 8,
+    "resource_pack_name": "pack.name",
+    "texture_name": "atlas.terrain",
     texture_data: textureData,
 });
