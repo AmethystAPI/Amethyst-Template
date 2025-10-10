@@ -3,6 +3,7 @@ import { join, extname, basename } from "jsr:@std/path";
 import { walkSync } from "jsr:@std/fs";
 
 // Project namespace no longer needs to be set here!
+// File can just be closed!
 
 const ROOT_DIR = Deno.env.get("ROOT_DIR")!;
 const modJsonFilePath = join(ROOT_DIR, "..", "mod.json")
